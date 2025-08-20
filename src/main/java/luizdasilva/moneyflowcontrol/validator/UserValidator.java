@@ -1,27 +1,28 @@
 package luizdasilva.moneyflowcontrol.validator;
 
 import luizdasilva.moneyflowcontrol.dto.user.CreateUserDTO;
+import luizdasilva.moneyflowcontrol.exception.user.InvalidUserException;
 
 public class UserValidator {
 
     public static void validateCreateUser(CreateUserDTO user) {
         if (user == null) {
-            throw new IllegalArgumentException("The user cannot be null.");
+            throw new luizdasilva.moneyflowcontrol.exception.user.InvalidUserException("The user cannot be null.");
         }
         if (user.name() == null || user.name().trim().isEmpty()) {
-            throw new IllegalArgumentException("The user name is required.");
+            throw new InvalidUserException("The user name is required.");
         }
         if (user.email() == null || user.email().trim().isEmpty()) {
-            throw new IllegalArgumentException("The user email is required.");
+            throw new InvalidUserException("The user email is required.");
         }
         if (!isValidEmail(user.email())) {
-            throw new IllegalArgumentException("The user email is invalid.");
+            throw new InvalidUserException("The user email is invalid.");
         }
         if (user.password() == null || user.password().trim().isEmpty()) {
-            throw new IllegalArgumentException("The user password is required.");
+            throw new InvalidUserException("The user password is required.");
         }
         if (user.password().length() < 8) {
-            throw new IllegalArgumentException("The password must be at least 8 characters long.");
+            throw new InvalidUserException("The password must be at least 8 characters long.");
         }
     }
 

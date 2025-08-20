@@ -3,6 +3,7 @@ package luizdasilva.moneyflowcontrol.service;
 import luizdasilva.moneyflowcontrol.dto.user.CreateUserDTO;
 import luizdasilva.moneyflowcontrol.dto.user.UserResponseDTO;
 import luizdasilva.moneyflowcontrol.entity.User;
+import luizdasilva.moneyflowcontrol.exception.user.EmailAlreadyExistsException;
 import luizdasilva.moneyflowcontrol.repository.UserRepository;
 import luizdasilva.moneyflowcontrol.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class UserService {
         UserValidator.validateCreateUser(createUserDTO);
 
         if(userRepository.existsByEmail(createUserDTO.email())){
-            throw new RuntimeException("There is already a registered user with this email: "+createUserDTO.email());
+            throw new EmailAlreadyExistsException(createUserDTO.email());
         }
 
         User user = new User();
