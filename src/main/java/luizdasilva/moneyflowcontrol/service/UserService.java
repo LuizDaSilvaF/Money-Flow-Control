@@ -5,6 +5,7 @@ import luizdasilva.moneyflowcontrol.dto.user.UpdateUserDTO;
 import luizdasilva.moneyflowcontrol.dto.user.UserResponseDTO;
 import luizdasilva.moneyflowcontrol.entity.User;
 import luizdasilva.moneyflowcontrol.exception.user.EmailAlreadyExistsException;
+import luizdasilva.moneyflowcontrol.exception.user.UserNotFoundException;
 import luizdasilva.moneyflowcontrol.repository.UserRepository;
 import luizdasilva.moneyflowcontrol.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findById(id);
 
         if(optionalUser.isEmpty()){
-            throw new RuntimeException("User not found.");
+            throw new UserNotFoundException();
         }
 
         User user = optionalUser.get();
@@ -75,7 +76,7 @@ public class UserService {
 
     public void deleteById(UUID id) {
         if(!userRepository.existsById(id)){
-            throw new RuntimeException("User not found.");
+            throw new UserNotFoundException();
         }
 
         userRepository.deleteById(id);
@@ -86,7 +87,7 @@ public class UserService {
 
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isEmpty()) {
-            throw new RuntimeException("User not found.");
+            throw new UserNotFoundException();
         }
 
         User user = optionalUser.get();
