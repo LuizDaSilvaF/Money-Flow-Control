@@ -38,4 +38,12 @@ public class UserController {
                 .status(HttpStatus.OK)
                 .body(userService.getById(id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable UUID id){
+        userService.deleteById(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("User deleted successfully.");
+    }
 }
