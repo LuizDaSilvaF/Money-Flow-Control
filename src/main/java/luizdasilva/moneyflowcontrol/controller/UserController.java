@@ -2,6 +2,7 @@ package luizdasilva.moneyflowcontrol.controller;
 
 import jakarta.validation.Valid;
 import luizdasilva.moneyflowcontrol.dto.user.CreateUserDTO;
+import luizdasilva.moneyflowcontrol.dto.user.UpdateUserDTO;
 import luizdasilva.moneyflowcontrol.dto.user.UserResponseDTO;
 import luizdasilva.moneyflowcontrol.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,12 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("User deleted successfully.");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> updateById(@PathVariable UUID id, @RequestBody UpdateUserDTO updateUserDTO){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.updateById(id, updateUserDTO));
     }
 }

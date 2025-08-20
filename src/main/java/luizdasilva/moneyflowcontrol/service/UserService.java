@@ -1,6 +1,7 @@
 package luizdasilva.moneyflowcontrol.service;
 
 import luizdasilva.moneyflowcontrol.dto.user.CreateUserDTO;
+import luizdasilva.moneyflowcontrol.dto.user.UpdateUserDTO;
 import luizdasilva.moneyflowcontrol.dto.user.UserResponseDTO;
 import luizdasilva.moneyflowcontrol.entity.User;
 import luizdasilva.moneyflowcontrol.exception.user.EmailAlreadyExistsException;
@@ -78,5 +79,38 @@ public class UserService {
         }
 
         userRepository.deleteById(id);
+    }
+
+    public UserResponseDTO updateById(UUID id, UpdateUserDTO updateUserDTO) {
+        UserValidator.validateUpdateUser(updateUserDTO);
+
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            throw new RuntimeException("User not found.");
+        }
+
+        User user = optionalUser.get();
+
+        if (updateUserDTO.name() != null && !updateUserDTO.name().isBlank()) {
+            user.setName(updateUserDTO.name());
+        }
+
+        if (updateUserDTO.email() != null && !updateUserDTO.email().isBlank()) {
+            user.setEmail(updateUserDTO.email());
+        }
+
+        if (updateUserDTO.password() != null && !updateUserDTO.password().isBlank()) {
+            user.setPassword(updateUserDTO.password());
+        }
+
+        User userSaved = userRepository.save(user);
+
+        return new UserResponseDTO(
+                userSaved.getId(),
+                userSaved.getName(),
+                userSaved.getEmail(),
+                userSaved.getCreatedAt(),
+                userSaved.getUpdatedAt()
+        );
     }
 }
