@@ -60,7 +60,14 @@ SPRING_FLYWAY_ENABLED=true
 ---
 
 ## Build and Run
-1. **Run with Docker Compose**
+
+1. **Package the application with Maven**
+
+```bash
+mvn clean package -DskipTests
+```
+
+2. **Run with Docker Compose**
 
 ```bash
 docker-compose up --build
