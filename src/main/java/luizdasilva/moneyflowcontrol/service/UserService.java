@@ -9,6 +9,8 @@ import luizdasilva.moneyflowcontrol.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
@@ -35,5 +37,18 @@ public class UserService {
                 userSaved.getCreatedAt(),
                 userSaved.getUpdatedAt()
         );
+    }
+
+    public List<UserResponseDTO> getAll(){
+        return userRepository.findAll()
+                .stream()
+                .map(user -> new UserResponseDTO(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getCreatedAt(),
+                        user.getUpdatedAt()
+                ))
+                .toList();
     }
 }
